@@ -218,14 +218,12 @@ This converter builds on prior open-source work:
 
 - **[PhotoPainter E-Ink Spectra 6 image converter](https://github.com/Toon-nooT/PhotoPainter-E-Ink-Spectra-6-image-converter)**
   by Toon-nooT — the resize/crop pipeline, the tuned RGB + luma color-distance metric, and the
-  Atkinson dithering that this tool reuses. That project in turn builds on Waveshare's
-  PhotoPainter conversion scripts.
-- The **EL133UF1 `.bin` packing format** (4-bit indexed, left/right-half split) used to drive
-  the Spectra 6 13.3" panel. _(source: TODO — add link)_
+  Atkinson dithering that this tool reuses.
 
 ## Issues & contributing
 
-Bug reports and pull requests are welcome at _TODO — add repository / issue-tracker URL_.
+Bug reports and pull requests are welcome at
+[github.com/Fraimic/fraimic_bin_converter](https://github.com/Fraimic/fraimic_bin_converter/issues).
 
 ## License
 
