@@ -1,0 +1,4 @@
+Pillow>=9.1
+pillow-heif
+numpy
+tqdm
