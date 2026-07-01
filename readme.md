@@ -215,7 +215,7 @@ The `.bin` is the raw frame buffer for the Spectra 6 13.3" panel (EL133UF1 contr
 This converter builds on prior open-source work:
 
 - **[PhotoPainter E-Ink Spectra 6 image converter](https://github.com/Toon-nooT/PhotoPainter-E-Ink-Spectra-6-image-converter)**
-  by Toon-nooT — the resize/crop pipeline, the tuned RGB + luma color-distance metric, and the
+  by Toon-nooT — for their tuned RGB + luma color-distance metric and the
   Atkinson dithering that this tool reuses.
 
 ## Issues & contributing
