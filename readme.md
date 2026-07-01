@@ -184,8 +184,6 @@ The `.bin` is the raw frame buffer for the Spectra 6 13.3" panel (EL133UF1 contr
   | Blue   | `0x5` |
   | Green  | `0x6` |
 
-  (Code `0x4` is intentionally unused.)
-
 - **4-bit indexed, two pixels per byte** — the high nibble is the even column, the low nibble
   is the odd column.
 - Each row is split into a **left half (columns 0–599)** and a **right half (columns
