@@ -161,10 +161,73 @@ Any aspect ratio is accepted; how it's fitted into the 1200 × 1600 frame depend
 
 ## Loading onto the display
 
-> **TODO — pending hardware-specific details.** This section will cover how to copy the
-> generated `.bin` onto the Spectra 6 13.3" display: the required folder and filename layout,
-> any index or manifest file the panel expects, and how it selects which image to show. The
-> tool produces a standalone `.bin` per image and does not yet rename files or write a manifest.
+Fraimic frames expose a small **local REST API**, so a generated `.bin` can be pushed
+straight to the panel over your WiFi network — no cloud, no account, no cable. The
+[`upload.py`](upload.py) helper included here does this for you.
+
+### Quick upload
+
+```bash
+# already have a .bin -> just send it:
+python upload.py fraimic.local sunset_1200x1600_s6.bin
+
+# convert an ordinary image and upload in one command:
+python upload.py 192.168.1.42 sunset.jpg --fit crop
+```
+
+The frame **must be awake** — tap it first; it deep-sleeps and is completely unreachable
+over the network while asleep. Both the device and the frame must be on the same LAN, and
+no authentication is required.
+
+### The endpoint
+
+```
+POST http://<frame-address>/api/image
+Content-Type: application/octet-stream
+(body = the raw 960,000 bytes of the .bin)
+```
+
+A successful upload returns:
+
+```json
+{"status": "rendering", "bytes_received": 960000}
+```
+
+The panel then renders automatically — no separate refresh call is needed — and the new
+image appears in roughly 20–30 seconds.
+
+The equivalent with `curl`:
+
+```bash
+curl -X POST \
+  -H "Content-Type: application/octet-stream" \
+  --data-binary @sunset_1200x1600_s6.bin \
+  http://fraimic.local/api/image
+```
+
+### Notes
+
+- **Finding the address.** `fraimic.local` resolves via mDNS on most home networks. If it
+  doesn't resolve, use the frame's IP address (visible in your router's DHCP client table).
+  **With more than one frame, always use IP addresses** — the `fraimic.local` name only
+  points at whichever single frame currently owns it.
+- **Orientation.** The `.bin` is a portrait 1200×1600 framebuffer. If your frame is hung in
+  landscape, pass `--rotate 90` (or `180` / `270`) to `upload.py` to rotate the image before
+  conversion so it displays the right way up. You can preview the result first with
+  [`decode_bin.py`](decode_bin.py).
+
+> Observed against Fraimic firmware **v0.2.21**. The endpoint currently accepts only the
+> packed `.bin` format this tool produces (uploading a JPEG/PNG directly is rejected).
+
+## Previewing a `.bin`
+
+The converter only goes image → `.bin`. To check what a `.bin` will actually show — and to
+catch orientation or packing mistakes before loading it — decode it back to a PNG:
+
+```bash
+python decode_bin.py sunset_1200x1600_s6.bin            # -> sunset_1200x1600_s6_decoded.png
+python decode_bin.py sunset_1200x1600_s6.bin --rotate 90 # also a landscape-mounted preview
+```
 
 ---
 
